@@ -16,4 +16,4 @@ I also utilized this library:
 
 https://pypi.org/project/pad4pi/
 
-My system runs on a very Raspberry Pi 1 of some sort but it shouldn't have any trouble running on any other model/revision.
+My system runs on a very old Raspberry Pi 1 of some sort but it shouldn't have any trouble running on any other model/revision.
