@@ -1,0 +1,137 @@
+--------------------------------
+Paintball Game Management System
+--------------------------------
+
+
+Author: Ian Huff
+Date Updated: 3/18/2023
+
+
+--Introduction--
+The Paintball Game Management System is a system which enables certain styles of play in sports such as paintball and airsoft that would be impossible without some form of computer control.
+This includes modes like King of the Hill, in which the system acts as a sort of "capture point", and Couter-Strike-Mini, inspired by the Counter-Strike video game series, which has the system act as a "bomb" that one team must plant and the other must defuse.
+The main advantage of utilizing such a system is its ability to manage various types of timers in a way that human players would not be able to accomplish with 100% accuracy otherwise.
+This system also provides an intuitive interface that makes navigation of its functions easy for players.
+This manual details some of the device's inner workings and can serve as a reference for players.
+
+
+--Technical--
+The "brains" of the device simply consists of a Raspberry Pi running a Python script which contains the logic for all of the game modes.
+Each of the interface components is connected to the Pi's 40-pin GPIO.
+The device is powered by a USB battery bank, which grants it several hours of battery life.
+Sould access to the device's internals be necessary, there is a notch near the speaker which can be used to lift the wood panel.
+Currently, there is no way to power the device on or off without lifing the panel, though this is one of the top priorities for future revisions.
+
+
+--Interface--
+The interface consists of the following components, mounted to a wood panel:
+Display - this Character LCD display shows messages and menu options.
+LEDs - these addressable RGB LEDs are used to give quick visual feedback to players.
+Speaker - similarly, this speaker provides audio feedback to players, both in menus and in games.
+Buttons - two arcade-style buttons color coded for red and blue teams.
+Keypad - A numeric keypad with keys for 0-9, plus two special keys (* and #), used for input in menus and inputting codes in certain games.
+
+
+--Control - Menus--
+The system's menus are navigated using the numeric keypad.
+On each menu, the available options will be cycled onto the display, along with a number.
+To select one of the options, simply press the numeric key associated with that option.
+Once a game mode is selected from the main menu, a set of "setup options" will need to be selected before the game begins.
+These setup options usually relate to the duration and difficulty of the game mode, and allow for a great degree of customization.
+Once all setup options have been selected, the system will initiate a ten-second countdown, accompanied by countdown sound effects, before starting the game.
+In addition, on the main menu, the * and # keys can be used to decrease or increase the volume, respectively.
+
+
+--Control - In-Game--
+Once a game has begun, players can interact with the system via either the buttons or the keypad.
+The specifics of player input is determined on a game-by-game basis.
+Each game's objectives and input methods are detailed in the following sections.
+In addition, the * key can be used to end any game that is currently in progress.
+
+
+--Main Menu--
+	On the main menu ("Choose game mode"), available options are as follows:
+	- 1: King of the Hill
+	- 2: Counter-Strike-Mini
+	- 3: Counter-Strike-Code
+	- 4: Defend-Mini
+	- 5: Defend-Code
+	Additionally, the * and # keys can be used to decrease or increase the volume, respectively.
+
+
+--Game Mode 1: King of the Hill--
+	In King of the Hill, there are two teams - red and blue.
+	Each team has their own timer that counts down when that team is in control of the point.
+	In order to take control of, or "capture", the point, that team's button must be pressed.
+	The lights will change color to indicate which team is currently in control of the point.
+	At the beginning of the game, no team controls the point, and the lights will turn green.
+	The team whose timer reaches 0 first is the victor.
+	
+	Setup Options:
+	- Timer Duration - the total time a team must control the point for in order to win
+	
+
+--Game Mode 2: Counter-Strike-Mini--
+	In Counter-Strike-Mini, there are two teams, each with unique rules and objectives:
+	- "Terrorists"
+		- The system, or "bomb", should be carried to a designated area.
+		- The red button can then be pressed in order to "arm" or "plant" the bomb.
+			- Red lights and a sound effect will indicate success.
+		- Upon planting the bomb, a fuse timer will be displayed.
+		- Win Conditions:
+			- All opponents are eliminated
+			- The bomb is successfully planted and its fuse timer reaches 0
+	- "Counter-Terrorists"
+		- Prior to a successful plant, the CT team's goal is to prevent planting.
+		- If the bomb is successfully planted, the goal is then to defuse it.
+		- Defusal is done by pressing the blue button.
+			- Blue lights and a sound effect will indicate success.
+		- Win Conditions:
+			- All opponents are eliminated
+			- The bomb is prevented from being planted before the game timer reaches 0
+			- The bomb is disarmed before its fuse timer reaches 0
+	The game has a timer which ends the round if the bomb is never planted.
+	At any point in time, the * or # keys can be used to manually end the game.
+	This mode is best played as a series of many short rounds, swapping roles periodically.
+	
+	Setup Options:
+	- Timer Duration - the time until the round ends, unless the bomb is planted
+	- Fuse Duration - controls how much time will pass before the bomb explodes, once planted
+			
+
+--Game Mode 3: Counter-Strike-Code--
+	The gameplay of this mode is nearly identical to that of #2, with one key difference.
+	Rather than simply pressing the blue button to defuse, the CT team must instead input a code.
+	The code is shown one digit at a time on the display.
+	When a digit is entered successfully:
+		- A green light will activate
+		- The next digit will be displayed after a brief delay
+	This mode can make the CT team's objective more difficult when compared with mode #2.
+	Furthermore, the length of the code can be adjusted for additional balancing.
+	
+	Setup Options:
+	- Timer Duration - the time until the round ends, unless the bomb is planted
+	- Fuse Duration - the time that passes before the bomb explodes, once it is planted
+	- Code Length - the number of digits in the code
+	
+
+--Game Mode 4: Defend-Mini--
+	Defend-Mini is a simple "game mode" that allows point-defense-style games to be managed.
+	The game lasts for a set amount of time, but either button can be pressed to end it early.
+	If the game ends by a button being pressed, the "attacking" team wins.
+	If the game ends by the timer reaching 0, the "defending" team wins.
+
+	Setup Options:
+	- Timer Duration - the amount of time the defending team must defend the point
+
+
+--Game Mode 5: Defend-Code--
+	The gameplay of this mode is nearly identical to that of #4, with one key difference.
+	Rather than simply pressing either button, the defending team must instead input a code.
+	The code is shown one digit at a time on the display.
+	This mode makes the attacking team's objective more difficult when compared to mode #4.
+	Furthermore, the length of the code can be adjusted for additional balancing.
+	
+	Setup Options:
+	- Timer Duration - the amount of time the defending team must defend the point
+	- Code Length - the number of digits in the code
